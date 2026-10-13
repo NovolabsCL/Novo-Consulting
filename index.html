@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>novo // CONSULTING — Automatización IA, Reputación Google, Datos & Expansión Estratégica</title>
+    <meta name="description" content="Consultoría Estratégica impulsada por Automatización de Procesos, Líneas de WhatsApp IA, Dominio de Reseñas en Google, Análisis de Datos, Cambio Controlado e Internacionalización. novoconsulting.cl">
+    <link rel="canonical" href="https://novoconsulting.cl">
+    
+    <!-- Google Fonts: Inter (UI), JetBrains Mono (Tactical Data), Playfair Display (Logo Stencil Vibe) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js para Interactividad Reactiva -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        tactical: {
+                            bg: '#020202',
+                            surface: '#090d12',
+                            card: '#161b22',
+                            border: '#1f2937',
+                            green: '#10b981',
+                            neon: '#00ff00',
+                            red: '#ff4b4b',
+                            cyan: '#38bdf8',
+                            amber: '#f59e0b'
+                        },
+                        novo: {
+                            navy: '#002878',     // Color 1 Paleta Marca novo
+                            royal: '#0044cc',    // Color 2 Paleta Marca novo
+                            sky: '#7da6df',      // Color 3 Paleta Marca novo
+                            ice: '#dce6f7'       // Color 4 Paleta Marca novo
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        stencil: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020202;
+            color: #dce6f7;
+            overflow-x: hidden;
+        }
+        .bg-tactical-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 68, 204, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 68, 204, 0.07) 1px, transparent 1px);
+        }
+        .novo-logo-stencil {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            position: relative;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            display: flex;
+            width: max-content;
+            animation: ticker 40s linear infinite;
+        }
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+        .hud-scanline {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0, 68, 204, 0.08) 50%, rgba(0, 68, 204, 0.08));
+            background-size: 100% 4px;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020202; }
+        ::-webkit-scrollbar-thumb { background: #0044cc; border-radius: 3px; }
+    </style>
+</head>
+
+<body class="bg-tactical-bg bg-tactical-grid antialiased selection:bg-novo-royal selection:text-white"
+      x-data="novoConsultingCore()">
+
+    <!-- ==========================================
+         1. TOP BAR: CONMUTADOR DE DIVISIONES + TELEMETRÍA DE OPERACIONES
+         ========================================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-tactical-bg/90 border-b border-tactical-border">
+        <!-- Cinta Superior con Switch de Ecosistemas (Consultoría vs Terminal Analistas) -->
+        <div class="bg-tactical-surface border-b border-tactical-border py-1.5 px-3 flex items-center justify-between text-xs font-mono">
+            
+            <!-- Conmutador de Divisiones novo -->
+            <div class="flex items-center space-x-2 shrink-0 pr-3 border-r border-tactical-border">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tactical-neon opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-tactical-neon"></span>
+                </span>
+                <a href="index.html" class="px-2 py-0.5 rounded bg-novo-royal text-white font-bold tracking-wider">
+                    [ DIV 01: CONSULTORÍA, AUTOMATIZACIÓN & REPUTACIÓN ]
+                </a>
+                <a href="terminal.html" class="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded bg-tactical-card hover:bg-novo-navy/70 text-novo-sky border border-tactical-border transition">
+                    <i data-lucide="radar" class="w-3 h-3 text-tactical-cyan"></i>
+                    <span>[ DIV 02: TERMINAL ANALISTAS COMEX ]</span>
+                </a>
+            </div>
+
+            <!-- Ticker de Métricas de Automatización, Reputación y Datos en Movimiento -->
+            <div class="overflow-hidden whitespace-nowrap flex-1 mx-4">
+                <div class="animate-ticker space-x-8 text-[11px]">
+                    <span class="text-novo-ice"><strong class="text-tactical-green">GOOGLE REVIEWS ENGINE:</strong> +310% crecimiento promedio en reseñas 5★ verificadas en 60 días</span>
+                    <span class="text-novo-ice"><strong class="text-tactical-cyan">WHATSAPP IA LINES:</strong> Tiempo de respuesta al cliente reducido de 4h a <span class="text-tactical-neon">6 segundos (24/7)</span></span>
+                    <span class="text-novo-ice"><strong class="text-novo-sky">DATA & REPORTING:</strong> Pipelines automatizados de BI, Dashboards ejecutivos y control de gestión en vivo</span>
+                    <span class="text-novo-ice"><strong class="text-tactical-amber">CAMBIO CONTROLADO:</strong> Adopción operativa sin fricción ni interrupción del negocio</span>
+                    <span class="text-novo-ice"><strong class="text-tactical-green">EXPANSIÓN LOCAL & GLOBAL:</strong> Posicionamiento SEO Local + Escalamiento a nuevos mercados</span>
+                    <!-- Loop -->
+                    <span class="text-novo-ice"><strong class="text-tactical-green">GOOGLE REVIEWS ENGINE:</strong> +310% crecimiento promedio en reseñas 5★ verificadas en 60 días</span>
+                    <span class="text-novo-ice"><strong class="text-tactical-cyan">WHATSAPP IA LINES:</strong> Tiempo de respuesta al cliente reducido de 4h a <span class="text-tactical-neon">6 segundos (24/7)</span></span>
+                </div>
+            </div>
+
+            <!-- Reloj UTC y Idioma -->
+            <div class="flex items-center space-x-2 shrink-0 pl-3 border-l border-tactical-border">
+                <span class="hidden lg:inline text-novo-sky/70 text-[11px]" x-text="utcTime"></span>
+                <select x-model="currentLang" class="bg-tactical-card text-novo-ice border border-tactical-border rounded px-1.5 py-0.5 text-[11px] focus:outline-none focus:border-novo-royal cursor-pointer">
+                    <option value="ES">ES // CL</option>
+                    <option value="EN">EN // US</option>
+                    <option value="PT">PT // BR</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Barra de Navegación Principal -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo (novo oficial) -->
+            <a href="https://novoconsulting.cl" class="flex items-center space-x-3 group">
+                <div class="flex items-center bg-novo-royal px-3 py-1 rounded-sm border border-novo-sky/30 shadow-[0_0_15px_rgba(0,68,204,0.5)]">
+                    <span class="novo-logo-stencil text-2xl tracking-tight text-white">novo</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-mono text-xs font-bold tracking-widest text-novo-ice uppercase">STRATEGIC AUTOMATION & DATA</span>
+                    <div class="flex space-x-1 mt-0.5">
+                        <span class="w-3 h-1 bg-novo-navy"></span>
+                        <span class="w-3 h-1 bg-novo-royal"></span>
+                        <span class="w-3 h-1 bg-novo-sky"></span>
+                        <span class="w-3 h-1 bg-novo-ice"></span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Links de Navegación Desktop -->
+            <nav class="hidden md:flex items-center space-x-7 text-sm font-medium text-novo-ice/80">
+                <a href="#ecosistema" class="hover:text-white transition flex items-center gap-1">
+                    <span class="font-mono text-[10px] text-novo-sky">01.</span> Soluciones Core
+                </a>
+                <a href="#simulador-roi" class="hover:text-white transition flex items-center gap-1">
+                    <span class="font-mono text-[10px] text-tactical-green">02.</span> Simulador Reputación & IA
+                </a>
+                <a href="#cambio-controlado" class="hover:text-white transition flex items-center gap-1">
+                    <span class="font-mono text-[10px] text-novo-sky">03.</span> Cambio Controlado
+                </a>
+                <a href="#planes" class="hover:text-white transition flex items-center gap-1">
+                    <span class="font-mono text-[10px] text-novo-sky">04.</span> Programas
+                </a>
+            </nav>
+
+            <!-- Botones de Acción: Diagnóstico + Acceso al Terminal Analistas -->
+            <div class="flex items-center space-x-2.5">
+                <a href="terminal.html" 
+                   class="hidden xl:inline-flex items-center gap-1.5 px-3 py-2 rounded bg-tactical-card hover:bg-novo-navy/50 text-novo-sky hover:text-white font-mono text-[11px] border border-tactical-border transition"
+                   title="Ir a la Terminal Geoeconómica y Logística para Analistas">
+                    <i data-lucide="globe-2" class="w-3.5 h-3.5 text-tactical-cyan"></i>
+                    <span>TERMINAL ANALISTAS</span>
+                </a>
+                <a href="#contacto"
+                   class="relative inline-flex items-center gap-2 px-4 py-2 rounded bg-novo-royal hover:bg-novo-navy text-white font-mono text-xs font-semibold border border-novo-sky/40 shadow-[0_0_20px_rgba(0,68,204,0.4)] transition-all">
+                    <i data-lucide="zap" class="w-4 h-4 text-tactical-neon"></i>
+                    <span>AUDITORÍA ESTRATÉGICA</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         2. HERO SECTION: CONSULTORÍA ESTRATÉGICA, REPUTACIÓN, WHATSAPP & DATOS
+         ========================================== -->
+    <section class="relative pt-10 pb-20 lg:pt-16 lg:pb-24 overflow-hidden border-b border-tactical-border">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[420px] bg-novo-royal/15 blur-[130px] pointer-events-none rounded-full"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Columna Izquierda: Narrativa de Alto Impacto -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded bg-tactical-card border border-novo-royal/50 text-xs font-mono">
+                        <span class="text-tactical-neon">●</span>
+                        <span class="text-novo-ice">CONSULTORÍA ESTRATÉGICA // AUTOMATIZACIÓN, DATOS & REPUTACIÓN</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+                        Domina tu reputación, <span class="text-transparent bg-clip-text bg-gradient-to-r from-novo-sky via-tactical-cyan to-tactical-green">automatiza tu operación</span> y escala con datos reales.
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-novo-ice/80 leading-relaxed max-w-2xl">
+                        Transformamos empresas tradicionales en máquinas de crecimiento automatizado. Integramos <strong class="text-white">Estrategias de Reputación y Reseñas en Google</strong>, <strong class="text-white">Líneas de WhatsApp con IA</strong>, <strong class="text-white">Generación Automatizada de Reportes y Análisis de Datos</strong> bajo una metodología de <strong class="text-tactical-cyan">Cambio Controlado</strong> que prepara tu negocio para dominar tu mercado local e internacionalizarse.
+                    </p>
+
+                    <!-- Doble Call To Action -->
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <a href="#simulador-roi" 
+                           class="inline-flex justify-center items-center gap-3 px-6 py-4 rounded bg-tactical-green hover:bg-emerald-400 text-tactical-bg font-mono font-bold text-sm shadow-[0_0_25px_rgba(16,185,129,0.35)] transition-all">
+                            <i data-lucide="sliders" class="w-5 h-5"></i>
+                            SIMULAR CRECIMIENTO & AHORRO OPERATIVO
+                        </a>
+                        <a href="terminal.html" 
+                           class="inline-flex justify-center items-center gap-3 px-6 py-4 rounded bg-tactical-card hover:bg-novo-navy/60 text-white font-mono font-semibold text-sm border border-novo-sky/30 transition-all">
+                            <i data-lucide="terminal" class="w-5 h-5 text-tactical-cyan"></i>
+                            ACCEDER A TERMINAL COMEX (ANALISTAS)
+                        </a>
+                    </div>
+
+                    <!-- KPIs de Impacto Directo -->
+                    <div class="pt-6 grid grid-cols-3 gap-4 border-t border-tactical-border/80 font-mono">
+                        <div>
+                            <div class="text-2xl font-bold text-tactical-green">4.9★</div>
+                            <div class="text-[11px] text-novo-sky">POSICIONAMIENTO Y DOMINIO EN GOOGLE MAPS / REVIEWS</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-tactical-cyan">-70%</div>
+                            <div class="text-[11px] text-novo-sky">CARGA OPERATIVA CON LÍNEAS WHATSAPP & WORKFLOWS IA</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white">100%</div>
+                            <div class="text-[11px] text-novo-sky">TRAZABILIDAD EN REPORTES, DATOS Y CAMBIO CONTROLADO</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Centro de Control Operativo en Vivo (HUD de Reputación, WhatsApp & BI) -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-lg bg-tactical-surface border border-novo-royal/60 shadow-[0_0_50px_rgba(0,40,120,0.45)] overflow-hidden">
+                        
+                        <!-- Cabecera del HUD -->
+                        <div class="bg-tactical-card px-4 py-2.5 border-b border-tactical-border flex items-center justify-between font-mono text-[11px]">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-tactical-red"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-tactical-green"></span>
+                                <span class="ml-2 text-novo-sky font-bold">NOVO_CORE_ENGINE // LIVE TELEMETRY</span>
+                            </div>
+                            <span class="text-tactical-neon">[SYNC OK]</span>
+                        </div>
+
+                        <!-- Pestañas del Monitor Táctico -->
+                        <div class="grid grid-cols-3 border-b border-tactical-border bg-tactical-bg font-mono text-[11px]">
+                            <button @click="hudTab = 'reputation'" :class="hudTab === 'reputation' ? 'bg-novo-royal text-white font-bold' : 'text-novo-sky hover:text-white'" class="py-2.5 text-center border-r border-tactical-border transition">
+                                ★ GOOGLE REVIEWS
+                            </button>
+                            <button @click="hudTab = 'whatsapp'" :class="hudTab === 'whatsapp' ? 'bg-novo-royal text-white font-bold' : 'text-novo-sky hover:text-white'" class="py-2.5 text-center border-r border-tactical-border transition">
+                                ⚡ WHATSAPP IA
+                            </button>
+                            <button @click="hudTab = 'data'" :class="hudTab === 'data' ? 'bg-novo-royal text-white font-bold' : 'text-novo-sky hover:text-white'" class="py-2.5 text-center transition">
+                                📊 DATA & BI
+                            </button>
+                        </div>
+
+                        <!-- Cuerpo del Monitor Táctico -->
+                        <div class="p-5 min-h-[320px] flex flex-col justify-between bg-[#04070b] hud-scanline font-mono">
+                            
+                            <!-- Vista 1: Reputación & Google Reviews -->
+                            <div x-show="hudTab === 'reputation'" class="space-y-4">
+                                <div class="flex items-center justify-between border-b border-tactical-border pb-3">
+                                    <div>
+                                        <span class="text-[10px] text-novo-sky block">SCORE DE REPUTACIÓN LOCAL</span>
+                                        <span class="text-2xl font-bold text-white">4.92 <span class="text-amber-400">★★★★★</span></span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-[10px] text-tactical-green block">CONVERSIÓN ORGÁNICA</span>
+                                        <span class="text-lg font-bold text-tactical-green">+240% CLICS</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 text-xs">
+                                    <div class="p-2.5 rounded bg-tactical-card border-l-2 border-tactical-green">
+                                        <div class="flex justify-between text-[10px] text-tactical-green">
+                                            <span>[FLUJO POST-VENTA AUTOMATIZADO]</span>
+                                            <span>ACTIVO</span>
+                                        </div>
+                                        <p class="text-novo-ice mt-1 text-[11px]">Solicitud inteligente vía WhatsApp enviada tras compra ➔ Cliente califica 5★ en Google Maps.</p>
+                                    </div>
+                                    <div class="p-2.5 rounded bg-tactical-card border-l-2 border-tactical-cyan">
+                                        <div class="flex justify-between text-[10px] text-tactical-cyan">
+                                            <span>[FIREWALL DE REPUTACIÓN / FILTRO DE CRISIS]</span>
+                                            <span>BLINDADO</span>
+                                        </div>
+                                        <p class="text-novo-ice mt-1 text-[11px]">Feedback negativo detectado a tiempo ➔ Derivado a gerencia interna antes de impactar el perfil público.</p>
+                                    </div>
+                                    <div class="p-2.5 rounded bg-tactical-card border-l-2 border-novo-royal">
+                                        <div class="flex justify-between text-[10px] text-novo-sky">
+                                            <span>[RESPUESTA IA SEO-OPTIMIZADA]</span>
+                                            <span>AUTO-REPLY</span>
+                                        </div>
+                                        <p class="text-novo-ice mt-1 text-[11px]">100% de las reseñas respondidas con palabras clave de tu negocio para escalar al Top 3 de Google.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vista 2: Automatización & Líneas de WhatsApp -->
+                            <div x-show="hudTab === 'whatsapp'" class="space-y-4" style="display: none;">
+                                <div class="flex items-center justify-between border-b border-tactical-border pb-3">
+                                    <div>
+                                        <span class="text-[10px] text-novo-sky block">ARQUITECTURA WHATSAPP API</span>
+                                        <span class="text-xl font-bold text-tactical-neon">MULTI-AGENTE & IA 24/7</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-[10px] text-tactical-cyan block">TASA DE RESPUESTA</span>
+                                        <span class="text-lg font-bold text-white">&lt; 5 SEG</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 text-[11px]">
+                                    <div class="p-2.5 rounded bg-tactical-card border border-tactical-border flex items-start gap-2">
+                                        <span class="text-tactical-neon font-bold">01 ❯</span>
+                                        <div>
+                                            <strong class="text-white block">Calificación y Agendamiento Automático</strong>
+                                            <span class="text-novo-ice/80">La línea filtra prospectos, responde dudas técnicas, agenda reuniones en calendario y sincroniza tu CRM sin intervención humana.</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-2.5 rounded bg-tactical-card border border-tactical-border flex items-start gap-2">
+                                        <span class="text-tactical-cyan font-bold">02 ❯</span>
+                                        <div>
+                                            <strong class="text-white block">Disparadores Post-Servicio & Encuestas</strong>
+                                            <span class="text-novo-ice/80">Conexión directa con tu ERP/Sistema para seguimiento de pedidos, cobros preventivos y captura de reseñas en Google.</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-2.5 rounded bg-tactical-card border border-tactical-border flex items-start gap-2">
+                                        <span class="text-amber-400 font-bold">03 ❯</span>
+                                        <div>
+                                            <strong class="text-white block">Escalamiento Humano sin Fricción</strong>
+                                            <span class="text-novo-ice/80">Cuando un caso requiere criterio ejecutivo, el sistema transfiere el historial resumido al especialista adecuado.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vista 3: Generación de Datos, Reportes & Cambio Controlado -->
+                            <div x-show="hudTab === 'data'" class="space-y-4" style="display: none;">
+                                <div class="flex items-center justify-between border-b border-tactical-border pb-3">
+                                    <div>
+                                        <span class="text-[10px] text-novo-sky block">INTELIGENCIA DE NEGOCIOS (BI)</span>
+                                        <span class="text-xl font-bold text-white">REPORTES AUTOMATIZADOS</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-[10px] text-tactical-green block">ERRORES MANUALES</span>
+                                        <span class="text-lg font-bold text-tactical-green">0.0%</span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 text-[11px]">
+                                    <div class="p-2.5 rounded bg-tactical-card border-l-2 border-tactical-cyan">
+                                        <strong class="text-white block">Extracción y Limpieza de Datos (ETL)</strong>
+                                        <span class="text-novo-ice/80">Unificamos ventas, atención al cliente, marketing y costos operativos en un solo tablero de comando ejecutivo.</span>
+                                    </div>
+                                    <div class="p-2.5 rounded bg-tactical-card border-l-2 border-tactical-green">
+                                        <strong class="text-white block">Generación Automática de Reportes</strong>
+                                        <span class="text-novo-ice/80">Informes semanales y mensuales generados solos y enviados al directorio con alertas de desviación de KPIs.</span>
+                                    </div>
+                                    <div class="p-2.5 rounded bg-tactical-card border-l-2 border-novo-royal">
+                                        <strong class="text-white block">Gestión del Cambio Controlado</strong>
+                                        <span class="text-novo-ice/80">Implementación gradual con capacitación de equipos y protocolos medibles para evitar resistencia interna.</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer del Monitor -->
+                            <div class="pt-3 border-t border-tactical-border flex items-center justify-between text-[10px] text-novo-sky">
+                                <span>CAMBIO CONTROLADO // RIESGO OPERATIVO: MÍNIMO</span>
+                                <span class="text-tactical-green">● AUDITORÍA ACTIVA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         3. BENTO GRID: LOS 6 PILARES DEL PRODUCTO FUERTE (CONSULTORÍA + TECH)
+         ========================================== -->
+    <section id="ecosistema" class="py-20 border-b border-tactical-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <div class="font-mono text-xs text-tactical-cyan uppercase tracking-widest mb-2">[ ARQUITECTURA DE CRECIMIENTO & EFICIENCIA ]</div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Consultoría Estratégica impulsada por Automatización y Datos.</h2>
+                </div>
+                <p class="font-mono text-xs text-novo-sky mt-4 md:mt-0 border-l-2 border-novo-royal pl-3 max-w-xs">
+                    Ordenamos tu casa, blindamos tu reputación local, automatizamos tus tareas repetitivas y preparamos tu expansión.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                
+                <!-- Pilar 1: Reputación Local & Crecimiento de Reseñas en Google (6 cols) -->
+                <div class="md:col-span-6 bg-tactical-card border border-tactical-border hover:border-tactical-green/70 rounded-lg p-6 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-tactical-green/15 text-tactical-green border border-tactical-green/40">PILAR 01 // REPUTACIÓN & GOOGLE REVIEWS</span>
+                            <i data-lucide="star" class="w-5 h-5 text-amber-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Dominio de Reputación Local y Crecimiento de Reseñas</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-5">
+                            Hoy el 93% de los clientes decide dónde comprar mirando las estrellas y comentarios en Google. Instalamos un <strong class="text-white">motor automatizado de captura de reseñas reales</strong>, posicionamiento SEO Local (Google Business Profile) y contención temprana de reclamos para que tu marca lidere su categoría.
+                        </p>
+                    </div>
+                    <div class="bg-tactical-surface border border-tactical-border rounded p-3 font-mono text-xs flex items-center justify-between">
+                        <span class="text-novo-sky">IMPACTO MEDIO EN 90 DÍAS:</span>
+                        <span class="text-tactical-green font-bold">Top 3 Local Pack + Flujo Constante 5★</span>
+                    </div>
+                </div>
+
+                <!-- Pilar 2: Automatización de Procesos & Líneas de WhatsApp (6 cols) -->
+                <div class="md:col-span-6 bg-tactical-card border border-tactical-border hover:border-tactical-cyan/70 rounded-lg p-6 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-tactical-cyan/15 text-tactical-cyan border border-tactical-cyan/40">PILAR 02 // WHATSAPP IA & WORKFLOWS</span>
+                            <i data-lucide="message-square-code" class="w-5 h-5 text-tactical-cyan"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Líneas de WhatsApp Inteligentes & Automatización de Tareas</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-5">
+                            Eliminamos los cuellos de botella humanos. Diseñamos <strong class="text-white">líneas de WhatsApp corporativas con agentes de IA</strong> entrenados con la información de tu empresa, integrados a tus calendarios, inventario, facturación y CRM. Tus ventas y soporte operan 24/7 sin perder un solo lead.
+                        </p>
+                    </div>
+                    <div class="bg-tactical-surface border border-tactical-border rounded p-3 font-mono text-xs flex items-center justify-between">
+                        <span class="text-novo-sky">AHORRO EN TAREAS REPETITIVAS:</span>
+                        <span class="text-tactical-cyan font-bold">+120 Horas/Mes por Equipo</span>
+                    </div>
+                </div>
+
+                <!-- Pilar 3: Generación de Datos, Análisis & Reportes Ejecutivos (4 cols) -->
+                <div class="md:col-span-4 bg-tactical-card border border-tactical-border hover:border-novo-royal/80 rounded-lg p-6 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-novo-navy/70 text-novo-sky border border-novo-royal/40">PILAR 03 // DATA & BI</span>
+                            <i data-lucide="bar-chart-big" class="w-5 h-5 text-novo-sky"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Generación de Datos, Análisis & Reportes Automáticos</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-4">
+                            Transformamos datos dispersos (excels, conversaciones, ventas, sucursales) en <strong class="text-white">reportes ejecutivos automatizados</strong> y paneles predictivos para tomar decisiones con precisión quirúrgica.
+                        </p>
+                    </div>
+                    <div class="text-[11px] font-mono text-tactical-green border-t border-tactical-border pt-3">
+                        ❯ Reportes semanales/mensuales sin intervención manual.
+                    </div>
+                </div>
+
+                <!-- Pilar 4: Gestión del Cambio Controlado (4 cols) -->
+                <div class="md:col-span-4 bg-tactical-card border border-tactical-border hover:border-novo-royal/80 rounded-lg p-6 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-novo-navy/70 text-novo-sky border border-novo-royal/40">PILAR 04 // CHANGE MGMT</span>
+                            <i data-lucide="shield-check" class="w-5 h-5 text-tactical-green"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Consultoría de Cambio Controlado</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-4">
+                            La tecnología falla cuando el equipo no la adopta. Aplicamos ingeniería de <strong class="text-white">Cambio Controlado</strong>: transición por etapas, protocolos claros, entrenamiento práctico y medición de adopción sin detener tu operación diaria.
+                        </p>
+                    </div>
+                    <div class="text-[11px] font-mono text-tactical-cyan border-t border-tactical-border pt-3">
+                        ❯ Adopción organizacional garantizada y auditada.
+                    </div>
+                </div>
+
+                <!-- Pilar 5: Internacionalización de Empresas & Escalamiento (4 cols) -->
+                <div class="md:col-span-4 bg-tactical-card border border-novo-royal/60 rounded-lg p-6 flex flex-col justify-between transition relative overflow-hidden">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-tactical-red/15 text-tactical-red border border-tactical-red/40">PILAR 05 // EXPANSIÓN GLOBAL</span>
+                            <i data-lucide="plane-takeoff" class="w-5 h-5 text-tactical-red"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Internacionalización de Empresas</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-4">
+                            Una vez que tu operación, reputación digital y datos están automatizados, escalamos tu empresa a nuevos mercados extranjeros apoyados por nuestra <strong class="text-white">Terminal Geoeconómica OSINT</strong>.
+                        </p>
+                    </div>
+                    <a href="terminal.html" class="text-[11px] font-mono text-white bg-novo-royal hover:bg-blue-600 px-3 py-2 rounded text-center transition block">
+                        EXPLORAR TERMINAL DE ANALISTAS ➔
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4. SIMULADOR INTERACTIVO DE IMPACTO: REPUTACIÓN + AUTOMATIZACIÓN WHATSAPP
+         ========================================== -->
+    <section id="simulador-roi" class="py-20 border-b border-tactical-border bg-tactical-surface/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-tactical-card border-2 border-novo-royal rounded-lg p-6 sm:p-10 shadow-[0_0_40px_rgba(0,68,204,0.25)]">
+                
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 mb-8 border-b border-tactical-border gap-4">
+                    <div>
+                        <span class="font-mono text-xs text-tactical-neon uppercase">[ SIMULADOR TÁCTICO DE RETORNO DE INVERSIÓN // NOVO CORE ]</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">Calcula el impacto en tu negocio en los próximos 90 días</h2>
+                    </div>
+                    <span class="font-mono text-xs px-3 py-1.5 rounded bg-tactical-bg border border-tactical-border text-novo-sky">
+                        MODELO PREDICTIVO BASADO EN CLIENTES REALES
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Controles del Simulador -->
+                    <div class="lg:col-span-6 space-y-6 font-mono text-xs">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-novo-ice">CLIENTES / ATENCIONES MENSUALES ACTUALES:</label>
+                                <span class="text-tactical-cyan font-bold text-sm" x-text="monthlyClients + ' clientes/mes'"></span>
+                            </div>
+                            <input type="range" min="50" max="2000" step="50" x-model="monthlyClients" class="w-full accent-novo-royal cursor-pointer">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-novo-ice">PERSONAS RESPONDIENDO WHATSAPP / TAREAS MANUALES:</label>
+                                <span class="text-tactical-green font-bold text-sm" x-text="teamSize + ' personas'"></span>
+                            </div>
+                            <input type="range" min="1" max="25" step="1" x-model="teamSize" class="w-full accent-tactical-green cursor-pointer">
+                        </div>
+
+                        <div>
+                            <label class="block text-novo-ice mb-2">OBJETIVO ESTRATÉGICO PRIORITARIO:</label>
+                            <select x-model="priorityGoal" class="w-full bg-tactical-surface border border-tactical-border rounded px-3 py-2.5 text-white focus:border-novo-royal focus:outline-none">
+                                <option value="reputation">Multiplicar Reseñas en Google & Dominar Búsqueda Local</option>
+                                <option value="automation">Automatizar Líneas de WhatsApp, Reportes y Tareas Operativas</option>
+                                <option value="international">Ordenar Datos + Expandir e Internacionalizar la Empresa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Resultados Proyectados -->
+                    <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono">
+                        <div class="p-5 rounded bg-tactical-bg border border-tactical-border">
+                            <span class="text-[10px] text-novo-sky block">NUEVAS RESEÑAS 5★ EN GOOGLE (EST. 90 DÍAS)</span>
+                            <span class="text-3xl font-extrabold text-tactical-green mt-1 block" x-text="'+' + Math.round(monthlyClients * 0.42) + ' reseñas'"></span>
+                            <span class="text-[11px] text-novo-ice/60 mt-1 block">Con embudo activo vía WhatsApp post-atención</span>
+                        </div>
+
+                        <div class="p-5 rounded bg-tactical-bg border border-tactical-border">
+                            <span class="text-[10px] text-novo-sky block">HORAS HOMBRE LIBERADAS AL MES</span>
+                            <span class="text-3xl font-extrabold text-tactical-cyan mt-1 block" x-text="Math.round(teamSize * 48) + ' hrs/mes'"></span>
+                            <span class="text-[11px] text-novo-ice/60 mt-1 block">Ahorro en respuestas repetitivas y armado de reportes</span>
+                        </div>
+
+                        <div class="sm:col-span-2 p-5 rounded bg-novo-navy/30 border border-novo-royal flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <span class="text-[10px] text-tactical-neon block font-bold">DIAGNÓSTICO RECOMENDADO:</span>
+                                <span class="text-sm text-white font-bold" x-text="goalRecommendation"></span>
+                            </div>
+                            <a href="#contacto" class="shrink-0 px-4 py-2.5 rounded bg-tactical-green text-tactical-bg font-bold text-xs hover:bg-emerald-400 transition">
+                                IMPLEMENTAR EN MI EMPRESA
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         5. METODOLOGÍA DE CAMBIO CONTROLADO (4 FASES)
+         ========================================== -->
+    <section id="cambio-controlado" class="py-20 border-b border-tactical-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mb-12">
+                <div class="font-mono text-xs text-tactical-cyan uppercase tracking-widest mb-2">[ METODOLOGÍA PROPIA // ZERO DISRUPTION ]</div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Ingeniería de Cambio Controlado: Modernización sin caos operativo.</h2>
+                <p class="text-novo-ice/80 text-base">
+                    No instalamos herramientas sueltas. Acompañamos estratégicamente a la dirección y a los equipos operativos para que cada automatización, línea de WhatsApp y tablero de datos genere retorno desde la primera semana.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 font-mono">
+                <div class="bg-tactical-card border border-tactical-border p-6 rounded-lg relative">
+                    <span class="text-xs text-tactical-neon font-bold">ETAPA 01 // SEMANA 1-2</span>
+                    <h3 class="text-lg font-bold text-white font-sans mt-2 mb-2">Auditoría de Fugas & Datos</h3>
+                    <p class="text-xs font-sans text-novo-ice/75 leading-relaxed">
+                        Mapeamos dónde pierdes clientes hoy: tiempos de respuesta en WhatsApp, estado de tus reseñas en Google y cuellos de botella en reportes manuales.
+                    </p>
+                </div>
+
+                <div class="bg-tactical-card border border-tactical-border p-6 rounded-lg relative">
+                    <span class="text-xs text-tactical-cyan font-bold">ETAPA 02 // SEMANA 3-4</span>
+                    <h3 class="text-lg font-bold text-white font-sans mt-2 mb-2">Despliegue de Automatización</h3>
+                    <p class="text-xs font-sans text-novo-ice/75 leading-relaxed">
+                        Activamos las líneas de WhatsApp IA, los disparadores automáticos de reseñas en Google y la captura estructurada de datos sin interrumpir tus ventas.
+                    </p>
+                </div>
+
+                <div class="bg-tactical-card border border-tactical-border p-6 rounded-lg relative">
+                    <span class="text-xs text-novo-sky font-bold">ETAPA 03 // SEMANA 5-6</span>
+                    <h3 class="text-lg font-bold text-white font-sans mt-2 mb-2">Reportes BI & Cambio Controlado</h3>
+                    <p class="text-xs font-sans text-novo-ice/75 leading-relaxed">
+                        Entrenamos a tu equipo bajo protocolos de Cambio Controlado y entregamos el panel automatizado de reportería gerencial en tiempo real.
+                    </p>
+                </div>
+
+                <div class="bg-tactical-card border border-novo-royal p-6 rounded-lg relative shadow-[0_0_25px_rgba(0,68,204,0.2)]">
+                    <span class="text-xs text-tactical-green font-bold">ETAPA 04 // CONTINUO</span>
+                    <h3 class="text-lg font-bold text-white font-sans mt-2 mb-2">Escalamiento & Internacionalización</h3>
+                    <p class="text-xs font-sans text-novo-ice/75 leading-relaxed">
+                        Con la operación blindada y reputación líder, proyectamos tu empresa hacia nuevos mercados nacionales e internacionales con nuestro Terminal OSINT.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         6. PROGRAMAS DE CONSULTORÍA Y AUTOMATIZACIÓN + PUENTE AL TERMINAL
+         ========================================== -->
+    <section id="planes" class="py-20 border-b border-tactical-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <div class="font-mono text-xs text-novo-sky uppercase tracking-widest mb-2">[ MODALIDADES DE IMPLEMENTACIÓN ]</div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Soluciones escalables según el nivel de madurez de tu empresa.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Programa 1: Reputación & WhatsApp Growth -->
+                <div class="bg-tactical-card border border-tactical-border rounded-lg p-7 flex flex-col justify-between">
+                    <div>
+                        <div class="font-mono text-xs text-novo-sky mb-2">PROGRAMA 01 // CRECIMIENTO COMERCIAL</div>
+                        <h3 class="text-2xl font-bold text-white">Reputación Google & WhatsApp IA</h3>
+                        <p class="text-xs text-novo-ice/70 mt-2">Para empresas de servicios, clínicas, comercios y B2B que buscan multiplicar su conversión y atención inmediata.</p>
+
+                        <ul class="space-y-3 text-xs text-novo-ice/90 border-t border-tactical-border pt-6 mt-6">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Sistema automatizado de crecimiento de Reseñas en Google</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Línea de WhatsApp con IA para atención y agendamiento 24/7</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Filtro preventivo de críticas y optimización SEO Local</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Reporte mensual automatizado de conversión y reputación</li>
+                        </ul>
+                    </div>
+
+                    <a href="#contacto" class="mt-8 w-full py-3 rounded bg-tactical-surface hover:bg-novo-navy border border-novo-sky/30 text-center font-mono text-xs font-bold text-white transition">
+                        SOLICITAR IMPLEMENTACIÓN
+                    </a>
+                </div>
+
+                <!-- Programa 2: Consultoría Estratégica Full (El Producto Fuerte Destacado) -->
+                <div class="bg-tactical-card border-2 border-tactical-green rounded-lg p-7 flex flex-col justify-between relative shadow-[0_0_35px_rgba(16,185,129,0.18)] transform lg:-translate-y-2">
+                    <div class="absolute -top-3.5 right-4 bg-novo-royal text-white font-mono text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider shadow">
+                        PRODUCTO CORE // MÁS SOLICITADO
+                    </div>
+
+                    <div>
+                        <div class="font-mono text-xs text-tactical-green mb-2">PROGRAMA 02 // TRANSFORMACIÓN OPERATIVA</div>
+                        <h3 class="text-2xl font-bold text-white">Consultoría Estratégica, Datos & Automatización Total</h3>
+                        <p class="text-xs text-novo-ice/70 mt-2">Intervención integral para automatizar procesos, generar inteligencia de datos y ejecutar Cambio Controlado.</p>
+
+                        <ul class="space-y-3 text-xs text-white border-t border-tactical-border pt-6 mt-6">
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> <strong>Todo el motor de Reputación Google + Líneas WhatsApp IA</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> <strong>Automatización de Procesos Administrativos y Comerciales</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> <strong>Generación de Datos, Análisis BI y Reportes Ejecutivos</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> <strong>Programa de Gestión del Cambio Controlado para tu Equipo</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> Diagnóstico de Internacionalización de Empresa incluido</li>
+                        </ul>
+                    </div>
+
+                    <a href="#contacto" class="mt-8 w-full py-3.5 rounded bg-tactical-green hover:bg-emerald-400 text-tactical-bg text-center font-mono text-xs font-extrabold transition shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                        AGENDAR DIAGNÓSTICO ESTRATÉGICO
+                    </a>
+                </div>
+
+                <!-- Programa 3: División Analistas & Comercio Exterior (Puente a terminal.html) -->
+                <div class="bg-tactical-card border border-novo-royal/80 rounded-lg p-7 flex flex-col justify-between">
+                    <div>
+                        <div class="font-mono text-xs text-tactical-cyan mb-2">DIVISIÓN ESPECIALIZADA // OSINT COMEX</div>
+                        <h3 class="text-2xl font-bold text-white">Terminal de Inteligencia & Soft Landing Global</h3>
+                        <p class="text-xs text-novo-ice/70 mt-2">Nuestra plataforma dedicada exclusivamente a analistas de comercio exterior, logística internacional y expansión B2B/B2G.</p>
+
+                        <ul class="space-y-3 text-xs text-novo-ice/90 border-t border-tactical-border pt-6 mt-6">
+                            <li class="flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-tactical-cyan"></i> Globo Táctico 3D de rutas logísticas y demanda HS</li>
+                            <li class="flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-tactical-cyan"></i> Calculadora de Soft Landing, Aranceles y Tratados TDT</li>
+                            <li class="flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-tactical-cyan"></i> Monitoreo de Riesgo Cambiario y Bancos Centrales</li>
+                            <li class="flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4 text-tactical-cyan"></i> Generador de Policy Briefs en APA 7 (+50 fuentes)</li>
+                        </ul>
+                    </div>
+
+                    <a href="terminal.html" class="mt-8 w-full py-3 rounded bg-novo-royal hover:bg-blue-600 text-white text-center font-mono text-xs font-bold transition flex items-center justify-center gap-2">
+                        <i data-lucide="terminal" class="w-4 h-4"></i>
+                        <span>IR AL PORTAL DE LA TERMINAL</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         7. FOOTER & FORMULARIO DE AUDITORÍA ESTRATÉGICA
+         ========================================== -->
+    <footer id="contacto" class="bg-tactical-surface pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="bg-gradient-to-r from-novo-navy/60 via-tactical-card to-tactical-card border border-novo-royal rounded-lg p-8 mb-14">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-6">
+                        <div class="font-mono text-xs text-tactical-neon mb-2">[ INICIAR PROTOCOLO DE DIAGNÓSTICO // NOVOCONSULTING.CL ]</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Solicita una Auditoría de Automatización, Datos y Reputación</h3>
+                        <p class="text-sm text-novo-ice/80">
+                            Analizamos gratuitamente el estado actual de tus reseñas en Google, tus flujos de atención en WhatsApp y tus procesos de reportería para entregarte un plan de acción inmediato.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <form @submit.prevent="submitAudit()" class="space-y-3 font-mono text-xs">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <input type="text" x-model="leadName" required placeholder="Tu Nombre y Cargo" 
+                                       class="w-full bg-tactical-bg border border-tactical-border rounded px-3 py-2.5 text-white focus:border-novo-royal focus:outline-none">
+                                <input type="email" x-model="leadEmail" required placeholder="correo@tuempresa.cl" 
+                                       class="w-full bg-tactical-bg border border-tactical-border rounded px-3 py-2.5 text-white focus:border-novo-royal focus:outline-none">
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <input type="tel" x-model="leadPhone" required placeholder="WhatsApp (+56 9 ...)" 
+                                       class="w-full bg-tactical-bg border border-tactical-border rounded px-3 py-2.5 text-white focus:border-novo-royal focus:outline-none">
+                                <select x-model="leadArea" class="w-full bg-tactical-bg border border-tactical-border rounded px-3 py-2.5 text-novo-ice focus:border-novo-royal focus:outline-none">
+                                    <option value="Consultoría Full: Automatización + Datos + Cambio Controlado">Foco: Automatización + Datos + Reportes</option>
+                                    <option value="Crecimiento de Reseñas Google & Reputación Local">Foco: Reputación & Reseñas Google</option>
+                                    <option value="Líneas de WhatsApp IA & Automatización Comercial">Foco: Líneas de WhatsApp & Ventas</option>
+                                    <option value="Internacionalización de Empresas & Soft Landing">Foco: Internacionalización de Empresas</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full py-3.5 rounded bg-novo-royal hover:bg-blue-600 text-white font-bold tracking-wider transition flex items-center justify-center gap-2">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                                <span x-text="submitted ? '✓ SOLICITUD RECIBIDA — TE CONTACTAREMOS VÍA WHATSAPP' : 'AGENDAR DIAGNÓSTICO EJECUTIVO'"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Créditos Finales y Enlaces Cruzados -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-novo-ice/60 font-mono border-t border-tactical-border pt-8">
+                <div class="flex items-center space-x-3">
+                    <span class="novo-logo-stencil text-lg text-white bg-novo-navy px-2.5 py-0.5 rounded-sm">novo</span>
+                    <span>© 2026 NOVOCONSULTING.CL // CONSULTORÍA ESTRATÉGICA, AUTOMATIZACIÓN & OSINT.</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-white hover:underline">Consultoría & Automatización</a>
+                    <span>|</span>
+                    <a href="terminal.html" class="text-tactical-cyan hover:underline">Terminal de Analistas (Comex)</a>
+                    <span>|</span>
+                    <a href="https://app.novoconsulting.cl" class="hover:text-white">App Login</a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        function novoConsultingCore() {
+            return {
+                currentLang: 'ES',
+                utcTime: '',
+                hudTab: 'reputation',
+                monthlyClients: 350,
+                teamSize: 4,
+                priorityGoal: 'automation',
+                leadName: '',
+                leadEmail: '',
+                leadPhone: '',
+                leadArea: 'Consultoría Full: Automatización + Datos + Cambio Controlado',
+                submitted: false,
+
+                get goalRecommendation() {
+                    const recs = {
+                        reputation: 'Motor Google Reviews + Firewall de Crisis + Posicionamiento Local Pack.',
+                        automation: 'Arquitectura WhatsApp IA Multi-Agente + Automatización de Reportes BI y Cambio Controlado.',
+                        international: 'Estandarización Operativa de Datos + Ruta de Internacionalización en Terminal OSINT.'
+                    };
+                    return recs[this.priorityGoal];
+                },
+
+                submitAudit() {
+                    if (this.leadEmail) {
+                        this.submitted = true;
+                        setTimeout(() => {
+                            this.leadName = '';
+                            this.leadEmail = '';
+                            this.leadPhone = '';
+                        }, 3000);
+                    }
+                },
+
+                init() {
+                    const updateClock = () => {
+                        const now = new Date();
+                        this.utcTime = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+                    };
+                    updateClock();
+                    setInterval(updateClock, 1000);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
