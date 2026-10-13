@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>novo // CONSULTING & POLITRISK — Terminal de Inteligencia Geoeconómica & Soft Landing</title>
+    <meta name="description" content="Plataforma OSINT de Internacionalización de PYMEs, Inteligencia Geoeconómica y Soft Landing. Estándar ITC & ProChile. novoconsulting.cl">
+    <link rel="canonical" href="https://novoconsulting.cl">
+    
+    <!-- Google Fonts: Inter (UI), JetBrains Mono (Tactical Data), Playfair Display (Logo Stencil Vibe) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js para Interactividad Reactiva sin fricción -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        tactical: {
+                            bg: '#020202',
+                            surface: '#090d12',
+                            card: '#161b22',
+                            border: '#1f2937',
+                            green: '#10b981',
+                            neon: '#00ff00',
+                            red: '#ff4b4b',
+                            cyan: '#38bdf8'
+                        },
+                        novo: {
+                            navy: '#002878',     // Color 1 Paleta Marca novo
+                            royal: '#0044cc',    // Color 2 Paleta Marca novo
+                            sky: '#7da6df',      // Color 3 Paleta Marca novo
+                            ice: '#dce6f7'       // Color 4 Paleta Marca novo
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        stencil: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020202;
+            color: #dce6f7;
+            overflow-x: hidden;
+        }
+        /* Grid táctico de fondo */
+        .bg-tactical-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 68, 204, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 68, 204, 0.07) 1px, transparent 1px);
+        }
+        /* Efecto Stencil del logo novo */
+        .novo-logo-stencil {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            position: relative;
+        }
+        /* Animación de Ticker Financiero */
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            display: flex;
+            width: max-content;
+            animation: ticker 38s linear infinite;
+        }
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+        /* Scanline sutil para HUD */
+        .hud-scanline {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0, 68, 204, 0.1) 50%, rgba(0, 68, 204, 0.1));
+            background-size: 100% 4px;
+        }
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020202; }
+        ::-webkit-scrollbar-thumb { background: #0044cc; border-radius: 3px; }
+    </style>
+</head>
+
+<body class="bg-tactical-bg bg-tactical-grid antialiased selection:bg-novo-royal selection:text-white"
+      x-data="novoTerminalApp()">
+
+    <!-- ==========================================
+         1. TOP BAR & TICKER FINANCIERO / OSINT
+         ========================================== -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-tactical-bg/90 border-b border-tactical-border">
+        <!-- Cinta Superior de Telemetría y Ticker -->
+        <div class="bg-tactical-surface border-b border-tactical-border py-1.5 px-3 flex items-center justify-between text-xs font-mono">
+            
+            <!-- Estado del Sistema -->
+            <div class="flex items-center space-x-3 shrink-0 pr-4 border-r border-tactical-border">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tactical-neon opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-tactical-neon"></span>
+                </span>
+                <span class="text-tactical-green font-semibold tracking-wider">[ SISTEMA ACTIVO // LIVE INTEL ]</span>
+                <span class="hidden md:inline text-novo-sky/70" x-text="utcTime"></span>
+            </div>
+
+            <!-- Ticker en Movimiento -->
+            <div class="overflow-hidden whitespace-nowrap flex-1 mx-4">
+                <div class="animate-ticker space-x-8 text-[11px]">
+                    <span class="text-novo-ice"><strong class="text-tactical-cyan">FX RISK USD/CLP:</strong> 942.50 <span class="text-tactical-green">(-0.42% BAJO)</span></span>
+                    <span class="text-novo-ice"><strong class="text-tactical-red">[ALERTA OMC]:</strong> Nuevas cuotas arancelarias Acero/Agro UE vigentes Q4</span>
+                    <span class="text-novo-ice"><strong class="text-tactical-cyan">HS 0804.40 (Paltas/Aguacates):</strong> Arancel Preferencial 0% vía CPTPP (Japón/Canadá)</span>
+                    <span class="text-novo-ice"><strong class="text-tactical-green">[TDT ACTIVO]:</strong> Convenio Doble Tributación Chile-EE.UU. reduce Withholding Tax a 10%</span>
+                    <span class="text-novo-ice"><strong class="text-novo-sky">RUTA MARÍTIMA:</strong> Chancay-Shanghái reduce tránsito logístico en -11 días</span>
+                    <!-- Duplicado para loop infinito fluido -->
+                    <span class="text-novo-ice"><strong class="text-tactical-cyan">FX RISK USD/CLP:</strong> 942.50 <span class="text-tactical-green">(-0.42% BAJO)</span></span>
+                    <span class="text-novo-ice"><strong class="text-tactical-red">[ALERTA OMC]:</strong> Nuevas cuotas arancelarias Acero/Agro UE vigentes Q4</span>
+                    <span class="text-novo-ice"><strong class="text-tactical-cyan">HS 0804.40 (Paltas/Aguacates):</strong> Arancel Preferencial 0% vía CPTPP (Japón/Canadá)</span>
+                </div>
+            </div>
+
+            <!-- Selector de 7 Idiomas -->
+            <div class="flex items-center space-x-2 shrink-0 pl-3 border-l border-tactical-border">
+                <i data-lucide="globe" class="w-3.5 h-3.5 text-novo-sky"></i>
+                <select x-model="currentLang" class="bg-tactical-card text-novo-ice border border-tactical-border rounded px-1.5 py-0.5 text-[11px] focus:outline-none focus:border-novo-royal cursor-pointer">
+                    <option value="ES">ES // Español</option>
+                    <option value="EN">EN // English</option>
+                    <option value="PT">PT // Português</option>
+                    <option value="FR">FR // Français</option>
+                    <option value="DE">DE // Deutsch</option>
+                    <option value="ZH">ZH // 中文</option>
+                    <option value="JA">JA // 日本語</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Barra de Navegación Principal -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo (novo con bloques de paleta oficial) -->
+            <a href="https://novoconsulting.cl" class="flex items-center space-x-3 group">
+                <div class="flex items-center bg-novo-royal px-3 py-1 rounded-sm border border-novo-sky/30 shadow-[0_0_15px_rgba(0,68,204,0.5)]">
+                    <span class="novo-logo-stencil text-2xl tracking-tight text-white">novo</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-mono text-xs font-bold tracking-widest text-novo-ice uppercase">CONSULTING // OSINT</span>
+                    <div class="flex space-x-1 mt-0.5">
+                        <span class="w-3 h-1 bg-novo-navy"></span>
+                        <span class="w-3 h-1 bg-novo-royal"></span>
+                        <span class="w-3 h-1 bg-novo-sky"></span>
+                        <span class="w-3 h-1 bg-novo-ice"></span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Links de Navegación Desktop -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-novo-ice/80">
+                <a href="#terminal-bento" class="hover:text-white transition flex items-center gap-1.5">
+                    <span class="font-mono text-[10px] text-novo-sky">01.</span> El Terminal (SaaS)
+                </a>
+                <a href="#simulador" class="hover:text-white transition flex items-center gap-1.5">
+                    <span class="font-mono text-[10px] text-tactical-green">02.</span> Simulador HS
+                </a>
+                <a href="#metodologia" class="hover:text-white transition flex items-center gap-1.5">
+                    <span class="font-mono text-[10px] text-novo-sky">03.</span> Consultoría 12 Semanas
+                </a>
+                <a href="#membresias" class="hover:text-white transition flex items-center gap-1.5">
+                    <span class="font-mono text-[10px] text-novo-sky">04.</span> Membresías
+                </a>
+            </nav>
+
+            <!-- Botón de Acceso al Terminal en app.novoconsulting.cl -->
+            <div class="flex items-center space-x-3">
+                <a href="https://app.novoconsulting.cl" target="_blank"
+                   class="relative inline-flex items-center gap-2 px-4 py-2 rounded bg-novo-royal hover:bg-novo-navy text-white font-mono text-xs font-semibold border border-novo-sky/40 shadow-[0_0_20px_rgba(0,68,204,0.4)] transition-all">
+                    <i data-lucide="terminal" class="w-4 h-4 text-tactical-neon"></i>
+                    <span>ACCEDER AL TERMINAL</span>
+                    <span class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] bg-tactical-bg/60 rounded text-tactical-cyan">LIVE</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         2. HERO SECTION DE ALTO IMPACTO + HUD TÁCTICO
+         ========================================== -->
+    <section class="relative pt-10 pb-20 lg:pt-16 lg:pb-28 overflow-hidden border-b border-tactical-border">
+        <!-- Halo de luz de fondo con el azul de marca -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-novo-royal/15 blur-[130px] pointer-events-none rounded-full"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Columna Izquierda: Propuesta de Valor Ejecutiva -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded bg-tactical-card border border-novo-royal/50 text-xs font-mono">
+                        <span class="text-tactical-cyan">●</span>
+                        <span class="text-novo-ice">NOVOCONSULTING.CL // INTELIGENCIA GEOECONÓMICA & SOFT LANDING</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+                        Escala tu empresa al mundo <span class="text-transparent bg-clip-text bg-gradient-to-r from-novo-sky via-tactical-cyan to-tactical-green">sin miopía internacional</span> ni fricciones ocultas.
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-novo-ice/80 leading-relaxed max-w-2xl">
+                        Combinamos el primer <strong class="text-white">Terminal OSINT de Soft Landing</strong> en tiempo real con <strong class="text-white">Consultoría Estratégica B2B & B2G de 12 semanas</strong>. Triangulamos demanda global, calculamos aranceles HS, optimizamos Tratados de Doble Tributación (TDT) y blindamos tu expansión ante el riesgo cambiario y regulatorio.
+                    </p>
+
+                    <!-- Doble Call To Action -->
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <a href="https://app.novoconsulting.cl" target="_blank"
+                           class="inline-flex justify-center items-center gap-3 px-6 py-4 rounded bg-tactical-green hover:bg-emerald-400 text-tactical-bg font-mono font-bold text-sm shadow-[0_0_25px_rgba(16,185,129,0.35)] transition-all">
+                            <i data-lucide="radar" class="w-5 h-5"></i>
+                            EXPLORAR TERMINAL EN VIVO
+                        </a>
+                        <a href="#metodologia" 
+                           class="inline-flex justify-center items-center gap-3 px-6 py-4 rounded bg-tactical-card hover:bg-novo-navy/60 text-white font-mono font-semibold text-sm border border-novo-sky/30 transition-all">
+                            <i data-lucide="calendar-check" class="w-5 h-5 text-novo-sky"></i>
+                            AGENDAR DIAGNÓSTICO B2B / B2G
+                        </a>
+                    </div>
+
+                    <!-- Métricas de Autoridad Instantánea -->
+                    <div class="pt-6 grid grid-cols-3 gap-4 border-t border-tactical-border/80 font-mono">
+                        <div>
+                            <div class="text-2xl font-bold text-white">+50</div>
+                            <div class="text-[11px] text-novo-sky">FUENTES MULTILATERALES (FMI, OMC, BM, ITC)</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-tactical-green">195</div>
+                            <div class="text-[11px] text-novo-sky">JURISDICCIONES & ARANCELES HS EN VIVO</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-tactical-cyan">APA 7</div>
+                            <div class="text-[11px] text-novo-sky">POLICY BRIEFS AUDITABLES EN 1 CLIC</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Mockup Interactivo del Globo Táctico 3D & HUD -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-lg bg-tactical-surface border border-novo-royal/50 shadow-[0_0_50px_rgba(0,40,120,0.45)] overflow-hidden">
+                        
+                        <!-- Cabecera del HUD -->
+                        <div class="bg-tactical-card px-4 py-2.5 border-b border-tactical-border flex items-center justify-between font-mono text-[11px]">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-tactical-red"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-tactical-green"></span>
+                                <span class="ml-2 text-novo-sky font-bold">APP.NOVOCONSULTING.CL // HUD</span>
+                            </div>
+                            <span class="text-tactical-neon">[ONLINE]</span>
+                        </div>
+
+                        <!-- Visor del Globo Táctico (Canvas Interactivo) -->
+                        <div class="relative h-[360px] flex items-center justify-center bg-[#04070b] hud-scanline">
+                            <canvas id="tacticalGlobe" width="360" height="360" class="cursor-crosshair"></canvas>
+
+                            <!-- Etiquetas Flotantes sobre el Globo -->
+                            <div class="absolute top-3 left-3 bg-tactical-bg/85 border border-tactical-border p-2.5 rounded font-mono text-[10px] space-y-1 backdrop-blur">
+                                <div class="text-novo-sky font-bold">VECTOR ACTIVO:</div>
+                                <div class="text-white" x-text="selectedRoute.name"></div>
+                                <div class="text-tactical-green" x-text="'VIABILIDAD: ' + selectedRoute.score"></div>
+                            </div>
+
+                            <div class="absolute top-3 right-3 bg-tactical-bg/85 border border-tactical-red/40 p-2.5 rounded font-mono text-[10px] space-y-1 backdrop-blur max-w-[165px]">
+                                <div class="text-tactical-red font-bold flex items-center gap-1">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-tactical-red animate-ping"></span> LIVE INTEL ALERT
+                                </div>
+                                <div class="text-novo-ice/90 leading-tight" x-text="selectedRoute.alert"></div>
+                            </div>
+
+                            <!-- Selector de Rutas en la Base del HUD -->
+                            <div class="absolute bottom-3 inset-x-3 bg-tactical-card/95 border border-tactical-border p-2 rounded flex items-center justify-between font-mono text-[11px]">
+                                <span class="text-novo-sky">SIMULAR RUTA:</span>
+                                <div class="flex space-x-1.5">
+                                    <button @click="setRoute(0)" :class="routeIndex === 0 ? 'bg-novo-royal text-white' : 'bg-tactical-bg text-novo-sky'" class="px-2 py-1 rounded border border-novo-sky/20 transition">CL ➔ US (Miami)</button>
+                                    <button @click="setRoute(1)" :class="routeIndex === 1 ? 'bg-novo-royal text-white' : 'bg-tactical-bg text-novo-sky'" class="px-2 py-1 rounded border border-novo-sky/20 transition">LATAM ➔ UE (Madrid)</button>
+                                    <button @click="setRoute(2)" :class="routeIndex === 2 ? 'bg-novo-royal text-white' : 'bg-tactical-bg text-novo-sky'" class="px-2 py-1 rounded border border-novo-sky/20 transition">CL ➔ CN (Shanghái)</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer de Telemetría del HUD -->
+                        <div class="bg-tactical-card px-4 py-3 border-t border-tactical-border grid grid-cols-3 gap-2 font-mono text-[11px]">
+                            <div>
+                                <span class="text-novo-sky block text-[9px]">ARANCEL NMF / TLC</span>
+                                <span class="text-tactical-green font-bold" x-text="selectedRoute.tariff"></span>
+                            </div>
+                            <div>
+                                <span class="text-novo-sky block text-[9px]">MODO GATS RECOMENDADO</span>
+                                <span class="text-tactical-cyan font-bold" x-text="selectedRoute.gats"></span>
+                            </div>
+                            <div>
+                                <span class="text-novo-sky block text-[9px]">COSTO SOFT LANDING EST.</span>
+                                <span class="text-white font-bold" x-text="selectedRoute.landingCost"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         3. BENTO GRID DE FUNCIONALIDADES (EL TERMINAL)
+         ========================================== -->
+    <section id="terminal-bento" class="py-20 border-b border-tactical-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Encabezado de Sección -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <div class="font-mono text-xs text-tactical-cyan uppercase tracking-widest mb-2">[ ARQUITECTURA SAAS // MÓDULOS DE COMANDO ]</div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white">Un Centro de Mando de $10,000 USD, diseñado para decisiones en segundos.</h2>
+                </div>
+                <p class="font-mono text-xs text-novo-sky mt-4 md:mt-0 border-l-2 border-novo-royal pl-3 max-w-xs">
+                    Reemplaza meses de estudios de mercado estáticos por inteligencia dinámica accionable en novoconsulting.cl.
+                </p>
+            </div>
+
+            <!-- Bento Grid 4 Pilares -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                
+                <!-- Pilar 1: Globo Táctico & HUD Logístico (7 cols) -->
+                <div class="md:col-span-7 bg-tactical-card border border-tactical-border hover:border-novo-royal/70 rounded-lg p-6 flex flex-col justify-between transition group relative overflow-hidden">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-novo-navy/60 text-novo-sky border border-novo-royal/40">MÓDULO 01 // GEOSPATIAL HUD</span>
+                            <i data-lucide="globe-2" class="w-5 h-5 text-tactical-cyan"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Globo Táctico 3D & Triangulación de Demanda</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-6">
+                            Integramos flujos reales de importación/exportación inspirados en <strong class="text-white">ITC Trade Map y Market Access Map</strong>. Identifica qué mercados están aumentando compras de tu código HS, qué puertos presentan congestión y dónde tu competencia aún no llega.
+                        </p>
+                    </div>
+
+                    <!-- Mini Tabla Táctica de Triangulación -->
+                    <div class="bg-tactical-surface border border-tactical-border rounded p-3 font-mono text-xs">
+                        <div class="flex justify-between text-[10px] text-novo-sky pb-2 border-b border-tactical-border">
+                            <span>DESTINO OBJETIVO</span>
+                            <span>CRECIMIENTO DEMANDA (5Y)</span>
+                            <span>BARRERA NO ARANCELARIA</span>
+                            <span>ÍNDICE VIABILIDAD</span>
+                        </div>
+                        <div class="divide-y divide-tactical-border/60">
+                            <div class="py-2 flex justify-between items-center">
+                                <span class="text-white font-semibold">🇺🇸 Texas / Florida (US)</span>
+                                <span class="text-tactical-green">+18.4% anual</span>
+                                <span class="text-tactical-cyan">FDA Prior Notice</span>
+                                <span class="px-2 py-0.5 bg-tactical-green/20 text-tactical-green rounded">94 / 100</span>
+                            </div>
+                            <div class="py-2 flex justify-between items-center">
+                                <span class="text-white font-semibold">🇳🇱 Róterdam Hub (UE)</span>
+                                <span class="text-tactical-green">+14.1% anual</span>
+                                <span class="text-amber-400">CBAM / Pacto Verde</span>
+                                <span class="px-2 py-0.5 bg-tactical-cyan/20 text-tactical-cyan rounded">86 / 100</span>
+                            </div>
+                            <div class="py-2 flex justify-between items-center">
+                                <span class="text-white font-semibold">🇲🇽 Ciudad de México</span>
+                                <span class="text-tactical-green">+22.0% anual</span>
+                                <span class="text-tactical-green">Alianza del Pacífico</span>
+                                <span class="px-2 py-0.5 bg-tactical-green/20 text-tactical-green rounded">96 / 100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 2: Live Intel Feed & Riesgo Cambiario (5 cols) -->
+                <div class="md:col-span-5 bg-tactical-card border border-tactical-border hover:border-tactical-red/60 rounded-lg p-6 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-tactical-red/15 text-tactical-red border border-tactical-red/40 flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-tactical-red animate-pulse"></span> MÓDULO 02 // LIVE INTEL & FX
+                            </span>
+                            <i data-lucide="activity" class="w-5 h-5 text-tactical-red"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Live Intel Feed & Riesgo Cambiario</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-4">
+                            Monitoreo 24/7 de Bancos Centrales (Fed, BCE, BCCh), boletines aduaneros y volatilidad de divisas para proteger tus márgenes de exportación antes de firmar un contrato.
+                        </p>
+                    </div>
+
+                    <!-- Feed de Alertas en Tiempo Real -->
+                    <div class="space-y-2.5 font-mono text-xs bg-tactical-surface p-3 rounded border border-tactical-border">
+                        <div class="p-2 rounded bg-tactical-bg border-l-2 border-tactical-red">
+                            <div class="flex justify-between text-[10px] text-tactical-red">
+                                <span>[CRÍTICO // ADUANAS BRASIL]</span>
+                                <span>HACE 14 MIN</span>
+                            </div>
+                            <p class="text-novo-ice mt-1 text-[11px]">Receita Federal actualiza inspección fitosanitaria en puerto de Santos.</p>
+                        </div>
+                        <div class="p-2 rounded bg-tactical-bg border-l-2 border-tactical-cyan">
+                            <div class="flex justify-between text-[10px] text-tactical-cyan">
+                                <span>[BANCOS CENTRALES // FX]</span>
+                                <span>HACE 42 MIN</span>
+                            </div>
+                            <p class="text-novo-ice mt-1 text-[11px]">Diferencial de tasas Fed/Latam abre ventana óptima para cobertura Forward a 90 días.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 3: Calculadora de Soft Landing Interactiva (6 cols) -->
+                <div id="simulador" class="md:col-span-6 bg-tactical-card border-2 border-novo-royal/80 rounded-lg p-6 shadow-[0_0_30px_rgba(0,68,204,0.2)]">
+                    <div class="flex items-center justify-between font-mono text-xs mb-4">
+                        <span class="px-2.5 py-1 rounded bg-tactical-green/15 text-tactical-green border border-tactical-green/40">MÓDULO 03 // SIMULADOR INTERACTIVO EN VIVO</span>
+                        <i data-lucide="calculator" class="w-5 h-5 text-tactical-green"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-1">Calculadora de Soft Landing & Aranceles HS</h3>
+                    <p class="text-xs text-novo-ice/75 mb-4">Prueba el motor ahora: selecciona tu sector y país de destino para estimar costos legales, tributarios y arancelarios.</p>
+
+                    <!-- Controles Interactivos -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 font-mono text-xs">
+                        <div>
+                            <label class="block text-[10px] text-novo-sky mb-1">PARTIDA ARANCELARIA / SECTOR (HS)</label>
+                            <select x-model="calcHs" class="w-full bg-tactical-surface border border-tactical-border rounded px-3 py-2 text-white focus:border-novo-royal focus:outline-none">
+                                <option value="saas">GATS Modo 1/3 — Software / SaaS / B2B Tech</option>
+                                <option value="agro">HS 0804 / 2008 — Agroindustria & Alimentos</option>
+                                <option value="mining">HS 8431 / 7308 — Proveedores Minería / Ind.</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-novo-sky mb-1">JURISDICCIÓN DE DESTINO</label>
+                            <select x-model="calcCountry" class="w-full bg-tactical-surface border border-tactical-border rounded px-3 py-2 text-white focus:border-novo-royal focus:outline-none">
+                                <option value="us">🇺🇸 Estados Unidos (Delaware / Miami LLC)</option>
+                                <option value="es">🇪🇸 España / Unión Europea (SL + EORI)</option>
+                                <option value="mx">🇲🇽 México (S.A. de C.V. + Padrón Import.)</option>
+                                <option value="pe">🇵🇪 Perú (S.A.C. + Hub Pacífico)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Resultados Dinámicos de la Calculadora -->
+                    <div class="bg-tactical-surface border border-tactical-border rounded p-4 font-mono grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                        <div class="p-2 bg-tactical-bg rounded border border-tactical-border">
+                            <span class="text-[10px] text-novo-sky block">ARANCEL TLC</span>
+                            <span class="text-lg font-bold text-tactical-green" x-text="calcOutput.tariff"></span>
+                        </div>
+                        <div class="p-2 bg-tactical-bg rounded border border-tactical-border">
+                            <span class="text-[10px] text-novo-sky block">CONSTITUCIÓN LEGAL</span>
+                            <span class="text-lg font-bold text-white" x-text="calcOutput.legalCost"></span>
+                        </div>
+                        <div class="p-2 bg-tactical-bg rounded border border-tactical-border">
+                            <span class="text-[10px] text-novo-sky block">RETENCIÓN TDT</span>
+                            <span class="text-lg font-bold text-tactical-cyan" x-text="calcOutput.taxWithholding"></span>
+                        </div>
+                        <div class="p-2 bg-tactical-bg rounded border border-tactical-border">
+                            <span class="text-[10px] text-novo-sky block">TIEMPO OPERATIVO</span>
+                            <span class="text-lg font-bold text-novo-ice" x-text="calcOutput.timeToMarket"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilar 4: Asistente IA Geopolítico & Policy Briefs APA 7 (6 cols) -->
+                <div class="md:col-span-6 bg-tactical-card border border-tactical-border hover:border-tactical-cyan/60 rounded-lg p-6 flex flex-col justify-between transition">
+                    <div>
+                        <div class="flex items-center justify-between font-mono text-xs mb-4">
+                            <span class="px-2.5 py-1 rounded bg-tactical-cyan/15 text-tactical-cyan border border-tactical-cyan/40">MÓDULO 04 // GENERATIVE OSINT AI</span>
+                            <i data-lucide="file-check-2" class="w-5 h-5 text-tactical-cyan"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Asistente IA Multilateral & Policy Briefs (APA 7)</h3>
+                        <p class="text-sm text-novo-ice/75 leading-relaxed mb-4">
+                            Cero alucinaciones. Nuestro motor RAG consulta directamente bases del <strong class="text-white">Banco Mundial, FMI, OMC, V-Dem e ITC</strong>. Genera informes ejecutivos listos para Directorios, Bancos o Licitaciones Públicas con citación académica APA 7 verificable.
+                        </p>
+                    </div>
+
+                    <!-- Simulación de Consola IA -->
+                    <div class="bg-tactical-surface border border-tactical-border rounded p-3.5 font-mono text-xs space-y-2">
+                        <div class="text-novo-sky flex items-center gap-2">
+                            <span class="text-tactical-neon">❯</span>
+                            <span>PROMPT: "Comparar riesgo regulatorio y TDT para filial agro-tech en España vs. Florida."</span>
+                        </div>
+                        <div class="text-novo-ice/90 bg-tactical-bg p-2.5 rounded border border-tactical-border text-[11px] leading-relaxed">
+                            <span class="text-tactical-green font-bold">[SÍNTESIS GENERADA - 4.2s]:</span> Bajo el Convenio Chile-EE.UU. (Art. 12), las regalías tecnológicas bajan al 2%-10%, superando la carga efectiva en España si se opera mediante LLC transparente...
+                            <a href="https://app.novoconsulting.cl" target="_blank" class="block mt-1 text-tactical-cyan underline cursor-pointer">⬇ Abrir Generador APA 7 en app.novoconsulting.cl</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4. METODOLOGÍA Y CONSULTORÍA (RUTA DE 12 SEMANAS B2B & B2G)
+         ========================================== -->
+    <section id="metodologia" class="py-20 border-b border-tactical-border bg-tactical-surface/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="max-w-3xl mb-12">
+                <div class="font-mono text-xs text-tactical-green uppercase tracking-widest mb-2">[ ACOMPAÑAMIENTO HUMANO + TECNOLOGÍA // B2B & B2G ]</div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Programa Ejecutivo de 12 Semanas: De la Triangulación al Cierre Comercial.</h2>
+                <p class="text-novo-ice/80 text-base">
+                    Diseñado para dueños de PYMEs con potencial exportador y <strong class="text-white">Programas Piloto de Fomento Productivo (Municipalidades, Gobiernos Regionales y Gremios)</strong> bajo estándares metodológicos del International Trade Centre (ITC) y ProChile.
+                </p>
+            </div>
+
+            <!-- Selector Táctico de las 4 Fases -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Botones de Fases (Izquierda) -->
+                <div class="lg:col-span-5 space-y-3 font-mono">
+                    <template x-for="(phase, idx) in phases" :key="idx">
+                        <button @click="activePhase = idx"
+                                :class="activePhase === idx ? 'bg-novo-royal/25 border-novo-royal text-white shadow-[0_0_20px_rgba(0,68,204,0.3)]' : 'bg-tactical-card border-tactical-border text-novo-ice/70 hover:border-novo-sky/40'"
+                                class="w-full text-left p-4 rounded-lg border transition-all flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-tactical-cyan" x-text="phase.weeks"></div>
+                                <div class="text-sm font-bold mt-0.5" x-text="phase.title"></div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-5 h-5" :class="activePhase === idx ? 'text-tactical-neon translate-x-1' : 'text-novo-sky/40'"></i>
+                        </button>
+                    </template>
+                </div>
+
+                <!-- Panel de Detalle de la Fase Seleccionada (Derecha) -->
+                <div class="lg:col-span-7 bg-tactical-card border border-novo-royal/60 rounded-lg p-6 sm:p-8 relative">
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-6 border-b border-tactical-border font-mono text-xs">
+                        <span class="text-tactical-neon font-bold" x-text="phases[activePhase].code"></span>
+                        <span class="px-2.5 py-1 rounded bg-novo-navy text-novo-ice" x-text="'ENTREGABLE: ' + phases[activePhase].deliverable"></span>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-white mb-3" x-text="phases[activePhase].title"></h3>
+                    <p class="text-novo-ice/85 text-sm sm:text-base leading-relaxed mb-6" x-text="phases[activePhase].desc"></p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <template x-for="point in phases[activePhase].bullets" :key="point">
+                            <div class="flex items-start space-x-2.5 bg-tactical-surface p-3 rounded border border-tactical-border">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-tactical-green shrink-0 mt-0.5"></i>
+                                <span class="text-xs text-novo-ice" x-text="point"></span>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="bg-novo-navy/30 border border-novo-royal/40 rounded p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-xs">
+                            <span class="font-mono text-tactical-cyan block font-bold">¿REPRESENTAS A UN MUNICIPIO O GOBIERNO REGIONAL?</span>
+                            <span class="text-novo-ice/80">Ejecutamos cohortes de 15 a 50 PYMEs locales con licencias del Terminal incluidas.</span>
+                        </div>
+                        <a href="#contacto-lead" class="shrink-0 px-4 py-2 bg-novo-royal hover:bg-blue-600 text-white font-mono text-xs font-bold rounded transition">
+                            SOLICITAR DOSSIER B2G
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         5. SECCIÓN DE MEMBRESÍAS (PRICING & PAYWALL)
+         ========================================== -->
+    <section id="membresias" class="py-20 border-b border-tactical-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <div class="font-mono text-xs text-novo-sky uppercase tracking-widest mb-2">[ LICENCIAMIENTO DE TERMINAL & CONSULTORÍA ]</div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Inversión transparente. Retorno medible en tu primera exportación.</h2>
+                <p class="text-sm text-novo-ice/75">Activación inmediata en app.novoconsulting.cl con medios de pago locales e internacionales.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                
+                <!-- Plan 1: Essential -->
+                <div class="bg-tactical-card border border-tactical-border rounded-lg p-7 flex flex-col justify-between">
+                    <div>
+                        <div class="font-mono text-xs text-novo-sky mb-2">NIVEL 01 // EXPLORACIÓN</div>
+                        <h3 class="text-2xl font-bold text-white">Essential</h3>
+                        <p class="text-xs text-novo-ice/70 mt-1">Ideal para PYMEs validando su primer mercado de destino.</p>
+                        
+                        <div class="my-6 font-mono">
+                            <span class="text-4xl font-extrabold text-white">$99</span>
+                            <span class="text-xs text-novo-sky">USD / mes</span>
+                        </div>
+
+                        <ul class="space-y-3 text-xs text-novo-ice/90 border-t border-tactical-border pt-6">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Acceso al Globo Táctico 3D y HUD</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Triangulación y monitoreo para <strong>1 País Destino</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Calculadora Arancelaria (hasta 5 códigos HS)</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-green"></i> Alertas semanales de Riesgo Cambiario</li>
+                        </ul>
+                    </div>
+
+                    <a href="https://app.novoconsulting.cl/checkout?plan=essential" 
+                       class="mt-8 w-full py-3 rounded bg-tactical-surface hover:bg-novo-navy border border-novo-sky/30 text-center font-mono text-xs font-bold text-white transition">
+                        INICIAR CON ESSENTIAL
+                    </a>
+                </div>
+
+                <!-- Plan 2: Corporativo / Pro (Destacado en Borde Verde/Rojo Táctico) -->
+                <div class="bg-tactical-card border-2 border-tactical-green rounded-lg p-7 flex flex-col justify-between relative shadow-[0_0_35px_rgba(16,185,129,0.18)] transform lg:-translate-y-2">
+                    <div class="absolute -top-3.5 right-4 bg-tactical-red text-white font-mono text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider shadow">
+                        MÁS ELEGIDO // FULL ACCESS
+                    </div>
+
+                    <div>
+                        <div class="font-mono text-xs text-tactical-green mb-2">NIVEL 02 // ESCALAMIENTO GLOBAL</div>
+                        <h3 class="text-2xl font-bold text-white">Corporativo / Pro</h3>
+                        <p class="text-xs text-novo-ice/70 mt-1">Dominio total de la plataforma sin límites geográficos.</p>
+                        
+                        <div class="my-6 font-mono">
+                            <span class="text-4xl font-extrabold text-white">$299</span>
+                            <span class="text-xs text-tactical-green">USD / mes</span>
+                        </div>
+
+                        <ul class="space-y-3 text-xs text-white border-t border-tactical-border pt-6">
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> <strong>Acceso Global 100% (195 países en vivo)</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> <strong>Asistente IA Geopolítico Ilimitado</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> <strong>Generador de Policy Briefs en APA 7 (PDF)</strong></li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> Calculadora completa de Soft Landing, TDTs y GATS</li>
+                            <li class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-tactical-neon"></i> Live Intel Feed en tiempo real (Bancos Centrales)</li>
+                        </ul>
+                    </div>
+
+                    <a href="https://app.novoconsulting.cl/checkout?plan=pro" 
+                       class="mt-8 w-full py-3.5 rounded bg-tactical-green hover:bg-emerald-400 text-tactical-bg text-center font-mono text-xs font-extrabold transition shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                        ACTIVAR TERMINAL PRO AHORA
+                    </a>
+                </div>
+
+                <!-- Plan 3: Enterprise & Gobierno -->
+                <div class="bg-tactical-card border border-novo-royal/70 rounded-lg p-7 flex flex-col justify-between">
+                    <div>
+                        <div class="font-mono text-xs text-tactical-cyan mb-2">NIVEL 03 // B2B CORPORATIVO & B2G</div>
+                        <h3 class="text-2xl font-bold text-white">Enterprise & Gobierno</h3>
+                        <p class="text-xs text-novo-ice/70 mt-1">Para Municipalidades, GORES, Gremios y Empresas en Ruta de 12 Semanas.</p>
+                        
+                        <div class="my-6 font-mono">
+                            <span class="text-3xl font-extrabold text-white">A Medida</span>
+                            <span class="block text-[11px] text-novo-sky mt-1">Licitación Pública / Contrato B2B</span>
+                        </div>
+
+                        <ul class="space-y-3 text-xs text-novo-ice/90 border-t border-tactical-border pt-6">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-cyan"></i> <strong>Programa Ejecutivo de 12 Semanas</strong> con consultores</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-cyan"></i> Licencias multi-usuario para cohortes de PYMEs</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-cyan"></i> Estructuración de Consorcios y Marcas Paraguas</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-tactical-cyan"></i> Armado de Agendas Comerciales y Rondas B2B</li>
+                        </ul>
+                    </div>
+
+                    <a href="#contacto-lead" 
+                       class="mt-8 w-full py-3 rounded bg-novo-royal hover:bg-novo-navy text-white text-center font-mono text-xs font-bold transition">
+                        CONTACTAR COMITÉ EJECUTIVO
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Insignias de Pago Seguro -->
+            <div class="mt-10 pt-6 border-t border-tactical-border flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-xs text-novo-sky">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="lock" class="w-4 h-4 text-tactical-green"></i>
+                    <span>PAGOS ENCRIPTADOS SSL // FACTURACIÓN LOCAL E INTERNACIONAL:</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="px-3 py-1 rounded bg-tactical-card border border-tactical-border text-white font-bold">Transbank Webpay Plus (CLP/UF)</span>
+                    <span class="px-3 py-1 rounded bg-tactical-card border border-tactical-border text-tactical-cyan font-bold">Stripe Global (USD/EUR)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         6. FOOTER & CAPTACIÓN AUTOMATIZADA (LEAD MAGNET)
+         ========================================== -->
+    <footer id="contacto-lead" class="bg-tactical-surface pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Caja de Lead Magnet Táctico -->
+            <div class="bg-gradient-to-r from-novo-navy/60 via-tactical-card to-tactical-card border border-novo-royal rounded-lg p-8 mb-14">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7">
+                        <div class="font-mono text-xs text-tactical-neon mb-2">[ RADAR GRATUITO DE INTELIGENCIA COMERCIAL // NOVOCONSULTING.CL ]</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Recibe Alertas Arancelarias y Geopolíticas de tu Sector</h3>
+                        <p class="text-sm text-novo-ice/80">
+                            Configura tu código HS o industria. Nuestro sistema te enviará un briefing ejecutivo cada vez que se modifique un arancel, se abra una licitación o cambie el riesgo cambiario en tu mercado objetivo.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-5">
+                        <form @submit.prevent="submitLead()" class="space-y-3 font-mono text-xs">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <input type="email" x-model="leadEmail" required placeholder="nombre@tuempresa.cl" 
+                                       class="w-full bg-tactical-bg border border-tactical-border rounded px-3 py-2.5 text-white focus:border-novo-royal focus:outline-none">
+                                <select x-model="leadSector" class="w-full bg-tactical-bg border border-tactical-border rounded px-3 py-2.5 text-novo-ice focus:border-novo-royal focus:outline-none">
+                                    <option value="Agroindustria & Alimentos">Sector: Agro & Alimentos</option>
+                                    <option value="SaaS & Servicios Globales (GATS)">Sector: SaaS & Servicios TI</option>
+                                    <option value="Manufactura & Proveedores Mineros">Sector: Manufactura / Minería</option>
+                                    <option value="Gobierno / Municipalidad (B2G)">Entidad: Municipio / GORE</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full py-3 rounded bg-novo-royal hover:bg-blue-600 text-white font-bold tracking-wider transition flex items-center justify-center gap-2">
+                                <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                                <span x-text="leadSubmitted ? '✓ RADAR ACTIVADO EN TU CORREO' : 'SUSCRIBIRSE AL LIVE INTEL FEED'"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sello Multilateral +50 Fuentes -->
+            <div class="border-y border-tactical-border py-6 mb-10 text-center">
+                <p class="font-mono text-[11px] text-novo-sky uppercase tracking-widest mb-4">
+                    RESPALDADO POR METODOLOGÍAS E INTEGRACIÓN DE DATOS DE +50 FUENTES MULTILATERALES
+                </p>
+                <div class="flex flex-wrap justify-center items-center gap-6 sm:gap-10 font-mono text-xs font-bold text-novo-ice/60">
+                    <span>WORLD BANK GROUP</span>
+                    <span>•</span>
+                    <span>INTERNATIONAL MONETARY FUND (IMF)</span>
+                    <span>•</span>
+                    <span>WORLD TRADE ORGANIZATION (WTO/OMC)</span>
+                    <span>•</span>
+                    <span>ITC TRADE MAP</span>
+                    <span>•</span>
+                    <span>V-DEM INSTITUTE</span>
+                    <span>•</span>
+                    <span>ESTÁNDARES PROCHILE</span>
+                </div>
+            </div>
+
+            <!-- Créditos Finales y Paleta de Marca novo -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-novo-ice/60 font-mono">
+                <div class="flex items-center space-x-3">
+                    <span class="novo-logo-stencil text-lg text-white bg-novo-navy px-2.5 py-0.5 rounded-sm">novo</span>
+                    <span>© 2026 NOVOCONSULTING.CL // TODOS LOS DERECHOS RESERVADOS.</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="https://app.novoconsulting.cl" class="hover:text-white">Terminal Login</a>
+                    <span>|</span>
+                    <a href="mailto:contacto@novoconsulting.cl" class="hover:text-white">contacto@novoconsulting.cl</a>
+                    <span>|</span>
+                    <span class="text-tactical-green">LATENCY: 24ms</span>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         SCRIPTS DE INTERACTIVIDAD Y GLOBO 3D CANVAS
+         ========================================== -->
+    <script>
+        function novoTerminalApp() {
+            return {
+                currentLang: 'ES',
+                utcTime: '',
+                routeIndex: 0,
+                calcHs: 'saas',
+                calcCountry: 'us',
+                activePhase: 0,
+                leadEmail: '',
+                leadSector: 'Agroindustria & Alimentos',
+                leadSubmitted: false,
+
+                routes: [
+                    {
+                        name: 'SANTIAGO (CL) ➔ MIAMI / DELAWARE (US)',
+                        score: '96/100 [ÓPTIMO]',
+                        alert: 'TDT Chile-EE.UU. plenamente vigente: Retención reducida en dividendos y servicios.',
+                        tariff: '0.0% (TLC Vigente)',
+                        gats: 'Modo 1 & Modo 3 (LLC)',
+                        landingCost: '$1,850 USD'
+                    },
+                    {
+                        name: 'LATAM ➔ MADRID / RÓTERDAM (UE)',
+                        score: '89/100 [FAVORABLE]',
+                        alert: 'Acuerdo Marco Avanzado UE facilita acceso a compras públicas europeas.',
+                        tariff: '0.0% - 2.4% (Acuerdo)',
+                        gats: 'Modo 3 (Filial SL) + Modo 4',
+                        landingCost: '$3,400 USD'
+                    },
+                    {
+                        name: 'CHANCAY / VALPARAÍSO ➔ SHANGHÁI (CN)',
+                        score: '92/100 [ALTA DEMANDA]',
+                        alert: 'Nueva ruta marítima directa reduce tránsito transpacífico en 11 días.',
+                        tariff: '0.0% (TLC Desgravación)',
+                        gats: 'Modo 1 & Distribuidor Local',
+                        landingCost: '$4,900 USD'
+                    }
+                ],
+
+                phases: [
+                    {
+                        code: 'FASE 01 // SEMANAS 1 A 3',
+                        weeks: 'SEMANAS 01 - 03',
+                        title: 'Triangulación Científica de Mercados (Estándar ITC)',
+                        deliverable: 'Matriz de Selección de Mercado + Policy Brief APA 7',
+                        desc: 'Eliminamos la intuición ("miopía internacional"). Cruzamos datos de importación a 6 dígitos HS en Trade Map y Market Access Map con indicadores macroeconómicos y de estabilidad institucional (V-Dem / FMI).',
+                        bullets: [
+                            'Ranking cuantitativo de los 3 mercados con mayor brecha de demanda insatisfecha.',
+                            'Auditoría de barreras arancelarias y no arancelarias (FDA, CE, fitosanitarios).',
+                            'Análisis de precios de entrada y elasticidad frente a competidores locales.',
+                            'Evaluación de riesgo cambiario y político a 12-24 meses.'
+                        ]
+                    },
+                    {
+                        code: 'FASE 02 // SEMANAS 4 A 6',
+                        weeks: 'SEMANAS 04 - 06',
+                        title: 'Ingeniería de Soft Landing, Modos GATS & TDT',
+                        deliverable: 'Hoja de Ruta Legal, Tributaria y Aduanera',
+                        desc: 'Definimos la arquitectura exacta de entrada según el Acuerdo General sobre el Comercio de Servicios (GATS Modos 1, 2, 3 o 4) y optimizamos la carga fiscal utilizando Tratados de Doble Tributación (TDT).',
+                        bullets: [
+                            'Selección óptima: Exportación directa vs. Constitución de filial (LLC, Corp, SL, S.A.C.).',
+                            'Simulación del flujo de repatriación de utilidades con mínimo impacto de Withholding Tax.',
+                            'Costeo exacto de trámites notariales, registros sanitarios y apertura bancaria.',
+                            'Blindaje de propiedad intelectual y contratos internacionales.'
+                        ]
+                    },
+                    {
+                        code: 'FASE 03 // SEMANAS 7 A 9',
+                        weeks: 'SEMANAS 07 - 09',
+                        title: 'Asociatividad Estratégica & Consorcios de Exportación',
+                        deliverable: 'Estructura de Consorcio / Marca Paraguas Homologada',
+                        desc: 'Especial para PYMEs y Programas Municipales/Regionales: unimos ofertas complementarias para alcanzar volumen exportable, compartir costos de Soft Landing y negociar con mayor poder ante grandes compradores.',
+                        bullets: [
+                            'Diseño de gobernanza para Consorcios Exportadores y Marcas Colectivas.',
+                            'Estandarización de catálogos, certificaciones y trazabilidad exigida en destino.',
+                            'Prorrateo inteligente de costos logísticos, bodegaje (3PL) y representación legal.',
+                            'Adaptación cultural y técnica del pitch comercial en 7 idiomas.'
+                        ]
+                    },
+                    {
+                        code: 'FASE 04 // SEMANAS 10 A 12',
+                        weeks: 'SEMANAS 10 - 12',
+                        title: 'Despliegue Comercial & Rondas de Negocios B2B',
+                        deliverable: 'Agenda B2B Activa + Terminal Configurado 24/7',
+                        desc: 'Ejecución directa en el mercado seleccionado. Activamos prospectos verificados, acompañamos la negociación técnica y dejamos a tu equipo operando con el Terminal Novo Politrisk.',
+                        bullets: [
+                            'Armado de agenda B2B con importadores, distribuidores o clientes corporativos.',
+                            'Soporte táctico en negociación de Incoterms 2020 y medios de pago (Carta de Crédito / Escrow).',
+                            'Capacitación ejecutiva para el uso autónomo del Terminal OSINT.',
+                            'Medición de KPIs de impacto (especial para rendición de fondos públicos B2G).'
+                        ]
+                    }
+                ],
+
+                get selectedRoute() {
+                    return this.routes[this.routeIndex];
+                },
+
+                setRoute(idx) {
+                    this.routeIndex = idx;
+                },
+
+                get calcOutput() {
+                    const matrix = {
+                        saas: {
+                            us: { tariff: '0% (GATS M1)', legalCost: '$1,450 USD', taxWithholding: '0% - 10% TDT', timeToMarket: '10 Días' },
+                            es: { tariff: '0% (Servicios)', legalCost: '$3,100 USD', taxWithholding: '5% - 10% TDT', timeToMarket: '21 Días' },
+                            mx: { tariff: '0% (TLC)', legalCost: '$2,200 USD', taxWithholding: '10% TDT', timeToMarket: '18 Días' },
+                            pe: { tariff: '0% (Comunidad)', legalCost: '$1,600 USD', taxWithholding: '15% TDT', timeToMarket: '14 Días' }
+                        },
+                        agro: {
+                            us: { tariff: '0% (TLC HS08)', legalCost: '$2,400 USD', taxWithholding: '5% - 15% TDT', timeToMarket: '25 Días (FDA)' },
+                            es: { tariff: '0% (Acuerdo UE)', legalCost: '$3,800 USD', taxWithholding: '5% - 10% TDT', timeToMarket: '30 Días (EFSA)' },
+                            mx: { tariff: '0% (Alianza P.)', legalCost: '$2,600 USD', taxWithholding: '10% TDT', timeToMarket: '20 Días' },
+                            pe: { tariff: '0% (TLC)', legalCost: '$1,900 USD', taxWithholding: '10% TDT', timeToMarket: '15 Días (SENASA)' }
+                        },
+                        mining: {
+                            us: { tariff: '0% (TLC HS84)', legalCost: '$2,900 USD', taxWithholding: '5% - 10% TDT', timeToMarket: '21 Días' },
+                            es: { tariff: '0% - 1.7%', legalCost: '$4,100 USD', taxWithholding: '5% - 10% TDT', timeToMarket: '28 Días (CE)' },
+                            mx: { tariff: '0% (TLC)', legalCost: '$2,850 USD', taxWithholding: '10% TDT', timeToMarket: '22 Días' },
+                            pe: { tariff: '0% (Preferencial)', legalCost: '$2,100 USD', taxWithholding: '10% TDT', timeToMarket: '12 Días' }
+                        }
+                    };
+                    return matrix[this.calcHs][this.calcCountry];
+                },
+
+                submitLead() {
+                    if (this.leadEmail) {
+                        this.leadSubmitted = true;
+                        setTimeout(() => { this.leadEmail = ''; }, 2500);
+                    }
+                },
+
+                init() {
+                    const updateClock = () => {
+                        const now = new Date();
+                        this.utcTime = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+                    };
+                    updateClock();
+                    setInterval(updateClock, 1000);
+                }
+            }
+        }
+
+        // Inicializar Iconos Lucide y Globo Táctico 3D en Canvas
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            const canvas = document.getElementById('tacticalGlobe');
+            const ctx = canvas.getContext('2d');
+            let angle = 0;
+
+            function drawGlobe() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const radius = 128;
+
+                // Halo exterior azul marca novo
+                const grad = ctx.createRadialGradient(cx, cy, radius * 0.7, cx, cy, radius * 1.25);
+                grad.addColorStop(0, 'rgba(0, 68, 204, 0.22)');
+                grad.addColorStop(1, 'rgba(2, 2, 2, 0)');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius * 1.25, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Esfera base
+                ctx.strokeStyle = '#0044cc';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Paralelos (Latitud)
+                ctx.strokeStyle = 'rgba(125, 166, 223, 0.18)';
+                ctx.lineWidth = 1;
+                for (let lat = -60; lat <= 60; lat += 30) {
+                    const rLat = Math.cos((lat * Math.PI) / 180) * radius;
+                    const yLat = cy + Math.sin((lat * Math.PI) / 180) * radius;
+                    ctx.beginPath();
+                    ctx.ellipse(cx, yLat, rLat, rLat * 0.22, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Meridianos en rotación 3D
+                for (let lon = 0; lon < 180; lon += 30) {
+                    const currentLon = ((lon + angle) % 180) * (Math.PI / 180);
+                    const rx = Math.abs(Math.cos(currentLon) * radius);
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, rx, radius, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Arco de Ruta Comercial Táctica (Verde Radar y Cian)
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(cx - 45, cy + 55); // Origen Latam
+                ctx.quadraticCurveTo(cx - 95, cy - 30, cx - 20, cy - 60); // Destino Norteamérica
+                ctx.stroke();
+
+                ctx.strokeStyle = '#38bdf8';
+                ctx.beginPath();
+                ctx.moveTo(cx - 45, cy + 55);
+                ctx.quadraticCurveTo(cx + 20, cy - 10, cx + 65, cy - 45); // Destino Europa/Asia
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Nodos Pulsantes (Puertos / Hubs)
+                const nodes = [
+                    { x: cx - 45, y: cy + 55, color: '#00ff00', label: 'SCL/VAP' },
+                    { x: cx - 20, y: cy - 60, color: '#38bdf8', label: 'MIA/DEL' },
+                    { x: cx + 65, y: cy - 45, color: '#ff4b4b', label: 'MAD/SHA' }
+                ];
+
+                nodes.forEach(n => {
+                    ctx.fillStyle = n.color;
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.font = '10px JetBrains Mono';
+                    ctx.fillStyle = '#dce6f7';
+                    ctx.fillText(n.label, n.x + 7, n.y + 3);
+                });
+
+                angle += 0.25;
+                requestAnimationFrame(drawGlobe);
+            }
+
+            drawGlobe();
+        });
+    </script>
+</body>
+</html>
